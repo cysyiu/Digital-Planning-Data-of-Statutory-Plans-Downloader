@@ -1,3 +1,3 @@
 # Auto-Download-HK-OZP
 
-# You may use this script to download full set HK OZP automactically.
+You may use this script to download full set HK OZP from Planning Department automactically.

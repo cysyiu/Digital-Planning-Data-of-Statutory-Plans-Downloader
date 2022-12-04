@@ -1,5 +1,3 @@
-# src = 'https://www.pland.gov.hk/pland_en/info_serv/digital_planning_data/Metadata/DEV_PLAN_SHP.json'
-
 import json
 import requests
 import codecs

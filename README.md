@@ -2,4 +2,4 @@
 
 **Development Scheme Plan (DSP)** is a statutory planning document that sets out the broad land use and development proposals for a designated area. It is prepared by the Planning Department and approved by the Chief Executive in Council under the Town Planning Ordinance.
 
-Although the Digital planning data, including all geographical information system (GIS) data, data dictionary and guidelines on using the GIS data, provided by the Town Planning Board (the Board) is available for download in Data.GOV, it is separated into different planning zones. To obtain a fullset of OZP and DSP, you may use the script provided to merge them into SHP file.
+Although the Digital planning data, including all geographical information system (GIS) data, data dictionary and guidelines on using the GIS data, provided by the Town Planning Board (the Board) is available for download in Data.GOV, it is separated into different planning zones. To obtain a fullset of OZP and DSP, you may use the script provided to download the data automatically and merge them into SHP file.

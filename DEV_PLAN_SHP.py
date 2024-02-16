@@ -7,31 +7,33 @@ import geopandas as gpd
 
 
 
-# Create "Data" file to store OZP and Download OZP data
+# Create "DEV_PLAN_Data" file to store OZP and Download OZP data
 try:
-   os.mkdir("OZP_Data")
+   os.mkdir("DEV_PLAN_Data")
 except FileExistsError:
    # directory already exists
    pass
 
+# Create "DEV_PLAN_Result" file to store merged OZP
 try:
-   os.mkdir("OZP_Result")
+   os.mkdir("DEV_PLAN_Result")
 except FileExistsError:
    # directory already exists
    pass
+
 
 # URL for OZP
-url = "https://www.pland.gov.hk/pland_en/info_serv/digital_planning_data/Metadata/OZP_PLAN_SHP.json"
+url = "https://www.pland.gov.hk/pland_en/info_serv/digital_planning_data/Metadata/DEV_PLAN_SHP.json"
 
 
 def readjson():
-    response = requests.get("https://www.pland.gov.hk/pland_en/info_serv/digital_planning_data/Metadata/OZP_PLAN_SHP.json")
+    response = requests.get("https://www.pland.gov.hk/pland_en/info_serv/digital_planning_data/Metadata/DEV_PLAN_SHP.json")
     if response.status_code == 200:
         get = response.json()
         url = pd.DataFrame(get)['SHP_LINK']
         print(len(url))
         for i in url:
-            file_path = ("OZP_Data")
+            file_path = ("DEV_PLAN_Data")
             wget.download(i, out=file_path)
     else:
         print("Faied to connect!")
@@ -40,11 +42,11 @@ def readjson():
 #Run
 readjson()
 
-###########################################################
+##########################################################
 
 # Extract ZIP files
 extension = ".zip"
-directory = "OZP_Data"
+directory = "DEV_PLAN_Data"
 
 for item in os.listdir(directory):
     if item.endswith(extension):
@@ -59,7 +61,6 @@ for item in os.listdir(directory):
 
 ###########################################################
 #Schema Area
-
 def merge_schema_area(directory):
     PlanSchemeArea_files = []
 
@@ -75,15 +76,14 @@ def merge_schema_area(directory):
         gdf = gpd.read_file(file)
         gdf_schema_area = pd.concat([gdf_schema_area, gdf], ignore_index=True)
     
-    gdf_schema_area.to_file("./OZP_Result/PLAN_SCHEME_AREA_master.shp")
+    gdf_schema_area.to_file("./DEV_PLAN_Result/PLAN_SCHEME_AREA_master.shp")
 
 ###########################################################
 #Zone
-
 def merge_zone(directory):
     Zone_files = []
 
-    for root, dirs, files in os.walk(directory):
+    for root, dir, files in os.walk(directory):
         for file in files:
             if file == "ZONE.shp":
                 file_path = os.path.join(root, file)
@@ -95,16 +95,15 @@ def merge_zone(directory):
         gdf = gpd.read_file(file)
         gdf_zone = pd.concat([gdf_zone, gdf], ignore_index=True)
     
-    gdf_zone.to_file("./OZP_Result/ZONE_master.shp")
+    gdf_zone.to_file("./DEV_PLAN_Result/Zone_master.shp")
 
 
 ###########################################################
 #BHC
-
 def merge_bhc(directory):
     BHC_files = []
 
-    for root, dirs, files in os.walk(directory):
+    for root, dir, files in os.walk(directory):
         for file in files:
             if file == "BHC.shp":
                 file_path = os.path.join(root, file)
@@ -116,17 +115,16 @@ def merge_bhc(directory):
         gdf = gpd.read_file(file)
         gdf_bhc = pd.concat([gdf_bhc, gdf], ignore_index=True)
     
-    gdf_bhc.to_file("./OZP_Result/BHC_master.shp")
+    gdf_bhc.to_file("./DEV_PLAN_Result/BHC_master.shp")
 
-###########################################################
-# #Amendment
-
+# ###########################################################
+#Amendment
 def merge_amendment(directory):
     Admendment_files = []
 
-    for root, dirs, files in os.walk(directory):
+    for root, dir, files in os.walk(directory):
         for file in files:
-            if file == "AMENDMENT_ITEM.shp":
+            if file == "BHC.shp":
                 file_path = os.path.join(root, file)
                 Admendment_files.append(file_path)
 
@@ -136,13 +134,12 @@ def merge_amendment(directory):
         gdf = gpd.read_file(file)
         gdf_admendment = pd.concat([gdf_admendment, gdf], ignore_index=True)
     
-    gdf_admendment.to_file("./OZP_Result/AMENDMENT_ITEM_master.shp")
+    gdf_admendment.to_file("./DEV_PLAN_Result/Admendment_master.shp")
 
 ###########################################################
 
-# Final
-def OZP_SHP():
-    merge_schema_area(directory)
-    merge_zone(directory)
-    merge_bhc(directory)
-    merge_amendment(directory)
+# Example usage
+merge_schema_area(directory)
+merge_zone(directory)
+merge_bhc(directory)
+merge_amendment(directory)
